@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"github.com/grdigger/otus-course/internal/service"
 	"net/http"
+
+	"github.com/grdigger/otus-course/internal/service"
+	l "github.com/sirupsen/logrus"
 )
 
 type Index struct {
@@ -17,6 +19,7 @@ func (h *Index) Handle(w http.ResponseWriter, r *http.Request) {
 	tpl := service.NewTemplate()
 	isAuth, err := h.session.IsUserLogged(r)
 	if err != nil {
+		l.Errorf("ошика  сохранения сессии: %s ", err.Error())
 		tpl.AddVar("error", "server error: "+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return

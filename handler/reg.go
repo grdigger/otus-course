@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/grdigger/otus-course/internal/model"
 	"github.com/grdigger/otus-course/internal/repository"
 	"github.com/grdigger/otus-course/internal/service"
-	"net/http"
-	"strconv"
+	l "github.com/sirupsen/logrus"
 )
 
 type Reg struct {
@@ -104,17 +106,20 @@ func (h *Reg) Handle(w http.ResponseWriter, r *http.Request) {
 
 		result, err := h.session.Save(newUser, r, w)
 		if err != nil {
+			l.Errorf("ошибка сохранения сессии: " + err.Error())
 			tpl.AddVar("error", "ошибка сохранения сессии"+err.Error())
 			tpl.Render(w, service.TplNameError)
 			return
 		}
 		if !result {
+			l.Errorf("ошибка записи сессии %w", newUser)
 			tpl.AddVar("error", "сессия не записана")
 			tpl.Render(w, service.TplNameError)
 			return
 		}
 		_, err = h.userInterestsRepo.UpdateInterestsById(userID, interests)
 		if err != nil {
+			l.Errorf("ошибка сохранения интересов пользователя" + err.Error())
 			tpl.AddVar("error", "ошибка сохранения интересов пользователя"+err.Error())
 			tpl.Render(w, service.TplNameError)
 		}

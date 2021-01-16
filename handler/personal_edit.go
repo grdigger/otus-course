@@ -1,12 +1,14 @@
 package handler
 
 import (
-	"github.com/grdigger/otus-course/internal/model"
-	"github.com/grdigger/otus-course/internal/repository"
-	"github.com/grdigger/otus-course/internal/service"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/grdigger/otus-course/internal/model"
+	"github.com/grdigger/otus-course/internal/repository"
+	"github.com/grdigger/otus-course/internal/service"
+	l "github.com/sirupsen/logrus"
 )
 
 type Edit struct {
@@ -63,6 +65,7 @@ func (h *Edit) Handle(w http.ResponseWriter, r *http.Request) {
 
 	interests, err := h.userInterestsRepo.GetByUserId(user.GetID())
 	if err != nil {
+		l.Errorf("ошибка получения интересов пользователя: " + err.Error())
 		tpl.AddVar("error", "ошибка получения интересов пользователя: "+err.Error())
 		tpl.Render(w, service.TplNameLogin)
 	}

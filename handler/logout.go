@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/grdigger/otus-course/internal/model"
 	"github.com/grdigger/otus-course/internal/repository"
 	"github.com/grdigger/otus-course/internal/service"
-	"net/http"
+	l "github.com/sirupsen/logrus"
 )
 
 type Logout struct {
@@ -23,6 +25,7 @@ func (h *Logout) Handle(w http.ResponseWriter, r *http.Request) {
 
 	result, err := h.session.Save(new(model.User), r, w)
 	if err != nil {
+		l.Errorf("ошика  сохранения сессии: %s ", err.Error())
 		tpl.AddVar("error", "ошика  сохранения сессии"+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return

@@ -6,6 +6,7 @@ import (
 	"github.com/grdigger/otus-course/internal/model"
 	"github.com/grdigger/otus-course/internal/repository"
 	"github.com/grdigger/otus-course/internal/service"
+	l "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )
@@ -42,12 +43,14 @@ func (h *View) Handle(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	userID, err := strconv.Atoi(vars["id"])
 	if err != nil {
+		l.Errorf("error parsing viewID: " + err.Error())
 		tpl.AddVar("error", "error parsing viewID: "+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return
 	}
 	user, err := h.userRepo.GetByID(userID)
 	if err != nil {
+		l.Errorf("ошибка получения данных пользователяD: " + err.Error())
 		tpl.AddVar("error", "ошибка получения данных пользователяD: "+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return

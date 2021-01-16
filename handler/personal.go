@@ -5,6 +5,7 @@ import (
 	"github.com/grdigger/otus-course/internal/model"
 	"github.com/grdigger/otus-course/internal/repository"
 	"github.com/grdigger/otus-course/internal/service"
+	l "github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -36,6 +37,7 @@ func (h *Personal) Handle(w http.ResponseWriter, r *http.Request) {
 	us := service.NewUserSession(tpl, h.session, w, r)
 	user, err := us.User()
 	if err != nil {
+		l.Errorf("ошика  получения данных сессии: %s ", err.Error())
 		tpl.AddVar("error", err.Error())
 		tpl.Render(w, service.TplNameError)
 		return
@@ -48,6 +50,7 @@ func (h *Personal) Handle(w http.ResponseWriter, r *http.Request) {
 	if user.GetGenderId() > 0 {
 		g, haveValue := h.genderHelper.GetByID(user.GetGenderId())
 		if !haveValue {
+			l.Errorf("ошибка получения значения пола для id : %d", user.GetGenderId())
 			tpl.AddVar("error", fmt.Sprintf("ошибка получения значения пола для id : %d", user.GetGenderId()))
 		} else {
 			tpl.AddVar("Gender", g)
@@ -56,6 +59,7 @@ func (h *Personal) Handle(w http.ResponseWriter, r *http.Request) {
 	if user.GetCityId() > 0 {
 		c, haveValue := h.cityHelper.GetByID(user.GetCityId())
 		if !haveValue {
+			l.Errorf("ошибка получения значения города для id : %d", user.GetGenderId())
 			tpl.AddVar("error", fmt.Sprintf("ошибка получения значения города для id : %d", user.GetGenderId()))
 		} else {
 			tpl.AddVar("City", c)
@@ -64,6 +68,7 @@ func (h *Personal) Handle(w http.ResponseWriter, r *http.Request) {
 
 	interests, err := h.userInterestsRepo.GetByUserId(user.GetID())
 	if err != nil {
+		l.Errorf("ошибка получения интересов пользователя: " + err.Error())
 		tpl.AddVar("error", "ошибка получения интересов пользователя: "+err.Error())
 		tpl.Render(w, service.TplNameLogin)
 	}

@@ -1,11 +1,13 @@
 package handler
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/grdigger/otus-course/internal/model"
 	"github.com/grdigger/otus-course/internal/repository"
 	"github.com/grdigger/otus-course/internal/service"
-	"net/http"
-	"strconv"
+	l "github.com/sirupsen/logrus"
 )
 
 type Save struct {
@@ -36,18 +38,21 @@ func (h *Save) Handle(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
 	if err != nil {
+		l.Errorf("error parsing form" + err.Error())
 		tpl.AddVar("error", "error parsing form: "+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return
 	}
 	userData, err := h.session.UserSessions(r)
 	if err != nil {
+		l.Errorf("ошика  чтения сессии: %s ", err.Error())
 		tpl.AddVar("error", "server error: "+err.Error())
 		tpl.Render(w, service.TplNameLogin)
 		return
 	}
 	user, ok := userData.(model.User)
 	if !ok {
+		l.Errorf("ошика  преообразования сессии: %w ", userData)
 		tpl.AddVar("error", "ошибка чтения сессии")
 		tpl.Render(w, service.TplNameError)
 		return
@@ -59,6 +64,7 @@ func (h *Save) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 	err = r.ParseForm()
 	if err != nil {
+		l.Errorf("error parsing form" + err.Error())
 		tpl.AddVar("error", "error parsing form: "+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return
@@ -119,6 +125,7 @@ func (h *Save) Handle(w http.ResponseWriter, r *http.Request) {
 
 	result, err := h.session.Save(newUser, r, w)
 	if err != nil {
+		l.Errorf("ошибка сохранения сессии" + err.Error())
 		tpl.AddVar("error", "ошибка сохранения сессии"+err.Error())
 		tpl.Render(w, service.TplNameError)
 		return
@@ -130,6 +137,7 @@ func (h *Save) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err = h.userInterestsRepo.UpdateInterestsById(user.GetID(), interests)
 	if err != nil {
+		l.Errorf("ошибка сохранения интересов пользователя" + err.Error())
 		tpl.AddVar("error", "ошибка сохранения интересов пользователя"+err.Error())
 		tpl.Render(w, service.TplNameError)
 	}

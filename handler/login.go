@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"fmt"
+	"net/http"
+
 	"github.com/grdigger/otus-course/internal/repository"
 	"github.com/grdigger/otus-course/internal/service"
-	"net/http"
+	l "github.com/sirupsen/logrus"
 )
 
 type Login struct {
@@ -26,7 +29,10 @@ func (h *Login) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user, err := h.userRepo.Auth(r.FormValue("email"), r.FormValue("password"))
+	err = fmt.Errorf("error from auth")
 	if err != nil {
+		l.Errorf("auth error: %s ", err.Error())
+		tpl.AddVar("error", err.Error())
 		tpl.Render(w, service.TplNameError)
 		return
 	}
@@ -37,11 +43,13 @@ func (h *Login) Handle(w http.ResponseWriter, r *http.Request) {
 	}
 	result, err := h.session.Save(user, r, w)
 	if err != nil {
+		l.Errorf("ошика  сохранения сессии: %s ", err.Error())
 		tpl.AddVar("error", "ошика  сохранения сессии"+err.Error())
 		tpl.Render(w, service.TplNameLogin)
 		return
 	}
 	if !result {
+		l.Errorf("ошика  сохранения сессии: %s ", err.Error())
 		tpl.AddVar("error", "ошика  сохранения сессии")
 		tpl.Render(w, service.TplNameLogin)
 		return
