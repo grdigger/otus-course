@@ -1,0 +1,38 @@
+{{template "header.html"}}
+
+{{/*<main class="form-signin">*/}}
+{{/*    <form method="post" action="/login">*/}}
+{{/*        <h1 class="h3 mb-3 fw-normal">{{ .Vars.userNotFound}}</h1>*/}}
+{{/*        <h1 class="h3 mb-3 fw-normal">Вход:</h1>*/}}
+{{/*        <label for="inputEmail" class="visually-hidden">Email:</label>*/}}
+{{/*        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>*/}}
+{{/*        <label for="inputPassword" class="visually-hidden">Пароль:</label>*/}}
+{{/*        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required>*/}}
+{{/*        <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>*/}}
+{{/*        <a href="/reg" >Регистрация</a>*/}}
+{{/*    </form>*/}}
+{{/*</main>*/}}
+
+<main class="form-signin">
+<div>
+    <div class="bd-example">
+        {{if and .Vars}}
+            <h1 class="h3 mb-3 fw-normal">{{ .Vars.error}}</h1>
+        {{ end}}
+        <form method="post" action="/login">
+            <div class="mb-3">
+                <h1 class="h3 mb-3 fw-normal">Вход:</h1>
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+            <div class="mb-3">
+                <a href="/reg" >Регистрация</a>
+            </div>
+        </form>
+    </div>
+</div>
+</main>
+{{template "footer.html"}}

@@ -1,0 +1,20 @@
+{{template "header.html"}}
+<div class="bd-cheatsheet container-fluid bg-white" style="padding: 0px; border-top: 1px solid #b02a37; margin: 0px;">
+    <section id="content">
+        <article class="my-3" id="tables">
+            <div>
+                <div class="bd-example">
+                    <table class="table table-hover">
+                        <tbody>
+                        {{range $key, $value := .Vars.friendList}}
+                            <tr><td><a href="/view/{{ $key}}">{{ $value }}</a></td></tr>
+                        {{ end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+{{template "footer.html"}}
+

@@ -1,0 +1,63 @@
+{{template "header.html"}}
+<div class="bd-cheatsheet container-fluid bg-white" style="padding: 0px; border-top: 1px solid #b02a37; margin: 0px;">
+    <section id="content">
+        <article class="my-3" id="tables">
+            <div>
+                <div class="bd-example">
+                    <form method="post" action="/save">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr><th scope="row">ID:</th><td></td><td> {{ .Vars.ID}}</td></tr>
+                        <tr><th scope="row">Имя:</th><td></td><td><input type="text" name="name" class="form-control" id="floatingInput" value="{{ .Vars.Name}}"></td></tr>
+                        <tr><th scope="row">Фамилия:</th><td></td><td><input type="text" name="surname" class="form-control" id="floatingInput" value="{{ .Vars.Surname}}"></td></tr>
+                        <tr><th scope="row">Возраст:</th><td></td><td><input type="text" name="age" class="form-control" id="floatingInput" value="{{ .Vars.Age}}"></td></tr>
+                        <tr><th scope="row">Пол:</th><td></td><td>
+                                <select name="gender">
+                                    {{ $genderName := .Vars.GenderName}}
+                                    {{ range $key, $value := .Vars.GenderList }}
+                                        <option {{ if eq $genderName $value}} selected {{ end}} value="{{ $key}}">{{ $value }}</option>
+                                    {{ end }}
+                                </select>
+                            </td></tr>
+                        <tr><th scope="row">Город:</th><td></td><td>
+                                {{ $cityName := .Vars.CityName}}
+                                <select name="city">
+                                    {{ range $key, $value := .Vars.CityList }}
+                                        <option {{ if eq $cityName $value}} selected {{ end}}value="{{ $key}}">{{ $value }}</option>
+                                    {{ end }}
+                                </select>
+                            </td></tr>
+                        <tr><th scope="row">Интересы:</th><td></td><td>
+                                <select name="interests" multiple id="interests" class="interests">
+                                    {{ range $key, $value := .Vars.InterestsList }}
+                                        <option value="{{ $key}}">{{ $value }}</option>
+                                    {{ end }}
+                                </select>
+                            </td></tr>
+                        <tr><td scope="row"><button class="w-100 btn btn-lg btn-primary" type="submit">Обновить</button></td></tr>
+                        </tbody>
+                    </table>
+                    </form>
+
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+<script>
+    var values = "{{ .Vars.Interests}}";
+    var splitValues = values.split(',');
+    var multi = document.getElementById('interests');
+
+    multi.value = null; // Reset pre-selected options (just in case)
+    var multiLen = multi.options.length;
+    for (var i = 0; i < multiLen; i++) {
+        if (splitValues.indexOf(multi.options[i].value) >= 0) {
+            multi.options[i].selected = true;
+        }
+    }
+</script>
+{{template "footer.html"}}
+
+
+

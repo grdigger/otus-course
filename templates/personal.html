@@ -1,0 +1,38 @@
+{{template "header.html"}}
+<div class="bd-cheatsheet container-fluid bg-white" style="padding: 0px; border-top: 1px solid #b02a37; margin: 0px;">
+    <section id="content">
+        <article class="my-3" id="tables">
+            <div>
+                <div class="bd-example">
+                    <table class="table table-hover" border="1px solid #ff0000;">
+                        <tbody>
+                        <tr><th scope="row">ID:</th><td></td><td>{{ .Vars.ID}}</td></tr>
+                        <tr><th scope="row">Имя:</th><td></td><td>{{ .Vars.Name}}</td></tr>
+                        <tr><th scope="row">Фамилия:</th><td></td><td>{{ .Vars.Surname}}</td></tr>
+                        <tr><th scope="row">Возраст:</th><td></td><td>{{ .Vars.Age}}</td></tr>
+                        <tr><th scope="row">Пол:</th><td></td><td>{{ .Vars.Gender}}</td></tr>
+                        <tr><th scope="row">Город:</th><td></td><td>{{ .Vars.City}}</td></tr>
+                        <tr><th scope="row">Интересы:</th><td></td><td>{{range .Vars.Interests}} {{ . }} {{end}}</td></tr>
+                        <tr><th scope="row">Друзья:</th><td></td><td><a href="/friends">Друзья</a></td></tr>
+                        <tr><td scope="row">
+                                {{ if .Vars.IsOwner}}
+                                <a href="/edit">Обновить</a>
+                                {{ else }}
+                                    <a href="/{{.Vars.link}}/{{ .Vars.ID}}">{{ .Vars.linkName}}</a>
+                                {{ end}}
+                            </td>
+                            <td></td>
+                            <td scope="row">
+                                {{ if .Vars.IsOwner}}
+                                <a href="/logout">Выход</a>
+                                {{ end}}
+                            </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+{{template "footer.html"}}
+
