@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/grdigger/otus-course/internal/repository"
@@ -29,7 +28,6 @@ func (h *Login) Handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	user, err := h.userRepo.Auth(r.FormValue("email"), r.FormValue("password"))
-	err = fmt.Errorf("error from auth")
 	if err != nil {
 		l.Errorf("auth error: %s ", err.Error())
 		tpl.AddVar("error", err.Error())
