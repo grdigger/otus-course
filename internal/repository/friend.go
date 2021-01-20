@@ -61,9 +61,9 @@ func (f *Friend) Find(name, surname string) (map[int]string, error) {
 	q := ""
 
 	if name == "" || surname == "" {
-		q = "select u.user_id, concat(u.name, ' ', u.surname) as name from user u limit 50"
+		q = "select u.user_id, concat(u.name, ' ', u.surname) as name from user u order by user_id limit 50"
 	} else {
-		q = "select u.user_id, concat(u.name, ' ', u.surname) as name from user u where name like ? and surname like ?"
+		q = "select u.user_id, concat(u.name, ' ', u.surname) as name from user u where name like ? and surname like ? order by user_id"
 		params = []interface{}{"%" + name + "%", "%" + surname + "%"}
 	}
 	rows, err := f.db.Query(q, params...)
