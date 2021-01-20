@@ -1,0 +1,25 @@
+{{template "header.html"}}
+<div class="bd-cheatsheet container-fluid bg-white" style="padding: 0px; border-top: 1px solid #b02a37; margin: 0px;">
+    <section id="content">
+        <article class="my-3" id="tables">
+            <div>
+                <div class="bd-example">
+                    <form method="post" action="/search">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr><th scope="row">Имя:</th><td></td><td><input type="text" name="name" class="form-control" id="floatingInput" value="{{ .Vars.Name}}"></td></tr>
+                        <tr><th scope="row">Фамилия:</th><td></td><td><input type="text" name="surname" class="form-control" id="floatingInput" value="{{ .Vars.Surname}}"></td></tr>
+                        <tr><td scope="row"><button class="w-100 btn btn-lg btn-primary" type="submit">Искать</button></td></tr>
+                        </tbody>
+                    </table>
+                    </form>
+
+                </div>
+            </div>
+        </article>
+    </section>
+</div>
+{{template "footer.html"}}
+
+
+

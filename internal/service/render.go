@@ -31,6 +31,7 @@ const TplNameFriend = "friend"
 const TplNamePersonal = "personal"
 const TplNamePersonalEdit = "personal_edit"
 const TplNameReg = "reg"
+const TplNameSearch = "search"
 
 type Template struct {
 	page *page

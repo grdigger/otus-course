@@ -8,6 +8,7 @@ type FriendRepository interface {
 	Add(userID, friendID int) (err error)
 	Remove(userID, friendID int) (err error)
 	GetFriends(userID int) (map[int]string, error)
+	Find(name, surname string) (map[int]string, error)
 }
 type Friend struct {
 	db *sql.DB
@@ -45,6 +46,33 @@ func (f *Friend) GetFriends(userID int) (map[int]string, error) {
 		var i int
 		var n string
 		// for each row, scan the result into our tag composite object
+		err = rows.Scan(&i, &n)
+		if err != nil {
+			return nil, err
+		}
+		out[i] = n
+	}
+	return out, nil
+}
+
+func (f *Friend) Find(name, surname string) (map[int]string, error) {
+	out := make(map[int]string)
+	var params []interface{}
+	q := ""
+
+	if name == "" || surname == "" {
+		q = "select u.user_id, concat(u.name, ' ', u.surname) as name from user u limit 50"
+	} else {
+		q = "select u.user_id, concat(u.name, ' ', u.surname) as name from user u where name like ? and surname like ?"
+		params = []interface{}{"%" + name + "%", "%" + surname + "%"}
+	}
+	rows, err := f.db.Query(q, params...)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var i int
+		var n string
 		err = rows.Scan(&i, &n)
 		if err != nil {
 			return nil, err

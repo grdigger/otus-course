@@ -33,6 +33,7 @@ func main() {
 	friendRemoveHandler := handler.NewFriendRemove(sess, friendRepository)
 	friendHandler := handler.NewFriendList(sess, friendRepository)
 	regHandler := handler.NewReg(sess, userRepository, userInterestsRepository, cityHelper, genderHelper, interestHelper)
+	searchHandler := handler.NewSearch(sess, friendRepository)
 
 	r.HandleFunc("/", indexHandler.Handle).Methods("GET")
 	r.HandleFunc("/login", loginHandler.Handle).Methods("POST")
@@ -45,6 +46,7 @@ func main() {
 	r.HandleFunc("/removefriend/{id}", friendRemoveHandler.Handle).Methods("GET")
 	r.HandleFunc("/friends", friendHandler.Handle).Methods("GET")
 	r.HandleFunc("/reg", regHandler.Handle).Methods("GET", "POST")
+	r.HandleFunc("/search", searchHandler.Handle).Methods("GET", "POST")
 
 	http.Handle("/", r)
 	log.Fatal(http.ListenAndServe(":8000", r))

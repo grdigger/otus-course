@@ -13,7 +13,9 @@
                         <tr><th scope="row">Пол:</th><td></td><td>{{ .Vars.Gender}}</td></tr>
                         <tr><th scope="row">Город:</th><td></td><td>{{ .Vars.City}}</td></tr>
                         <tr><th scope="row">Интересы:</th><td></td><td>{{range .Vars.Interests}} {{ . }} {{end}}</td></tr>
-                        <tr><th scope="row">Друзья:</th><td></td><td><a href="/friends">Друзья</a></td></tr>
+                        {{ if .Vars.IsOwner}}
+                        <tr><th scope="row">Друзья:</th><td></td><td><a href="/friends">Друзья</a> | <a href="/search">Найти</a></td></tr>
+                        {{ end}}
                         <tr><td scope="row">
                                 {{ if .Vars.IsOwner}}
                                 <a href="/edit">Обновить</a>
@@ -35,4 +37,4 @@
     </section>
 </div>
 {{template "footer.html"}}
-
+{{ .Vars}}
