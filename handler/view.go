@@ -117,13 +117,14 @@ func (h *View) Handle(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
-
-	if isFrended {
-		tpl.AddVar("link", "removefriend")
-		tpl.AddVar("linkName", "Удалить из друзей")
-	} else {
-		tpl.AddVar("link", "addfriend")
-		tpl.AddVar("linkName", "Добавить в друзья")
+	if currentUserID != user.GetID() {
+		if isFrended {
+			tpl.AddVar("link", "removefriend")
+			tpl.AddVar("linkName", "Удалить из друзей")
+		} else {
+			tpl.AddVar("link", "addfriend")
+			tpl.AddVar("linkName", "Добавить в друзья")
+		}
 	}
 	tpl.Render(w, service.TplNamePersonal)
 
