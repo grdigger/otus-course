@@ -23,9 +23,8 @@ func (h *Search) Handle(w http.ResponseWriter, r *http.Request) {
 	us := service.NewUserSession(tpl, h.session, w, r)
 	user, err := us.User()
 	if err != nil {
-		l.Errorf("ошика  получения данных сессии: %s ", err.Error())
 		tpl.AddVar("error", err.Error())
-		tpl.Render(w, service.TplNameError)
+		tpl.Render(w, service.TplNameLogin)
 		return
 	}
 	if user.IsEmpty() {
