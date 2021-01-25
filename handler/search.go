@@ -42,7 +42,7 @@ func (h *Search) Handle(w http.ResponseWriter, r *http.Request) {
 		surname := r.FormValue("surname")
 		users, err := h.friendRepo.Find(name, surname)
 		if err != nil {
-			l.Errorf("ошика  получения данных пользователей: %s ", err.Error())
+			l.Errorf("error getting users data: %s ", err.Error())
 			tpl.AddVar("error", err.Error())
 			tpl.Render(w, service.TplNameError)
 			return
