@@ -24,7 +24,7 @@ func (us *UserSession) User() (*model.User, error) {
 	}
 	user, ok := userData.(model.User)
 	if !ok {
-		return nil, fmt.Errorf("ошибка чтения сессии")
+		return nil, fmt.Errorf("error reading session %+v", userData)
 	}
 	return &user, nil
 }

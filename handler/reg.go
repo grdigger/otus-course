@@ -106,20 +106,20 @@ func (h *Reg) Handle(w http.ResponseWriter, r *http.Request) {
 
 		result, err := h.session.Save(newUser, r, w)
 		if err != nil {
-			l.Errorf("ошибка сохранения сессии: " + err.Error())
+			l.Errorf("error saving session: " + err.Error())
 			tpl.AddVar("error", "ошибка сохранения сессии"+err.Error())
 			tpl.Render(w, service.TplNameError)
 			return
 		}
 		if !result {
-			l.Errorf("ошибка записи сессии %w", newUser)
+			l.Errorf("error writing session %w", newUser)
 			tpl.AddVar("error", "сессия не записана")
 			tpl.Render(w, service.TplNameError)
 			return
 		}
 		_, err = h.userInterestsRepo.UpdateInterestsById(userID, interests)
 		if err != nil {
-			l.Errorf("ошибка сохранения интересов пользователя" + err.Error())
+			l.Errorf("error saving user interests" + err.Error())
 			tpl.AddVar("error", "ошибка сохранения интересов пользователя"+err.Error())
 			tpl.Render(w, service.TplNameError)
 		}
